@@ -211,6 +211,8 @@
                                                 <th>Nombre</th>
                                                 <th>Descripcion</th>
                                                 <th>Precio</th>
+                                                <th>Imagen</th>
+                                                <th>Archivo</th>
                                                 <th>Estado</th>
                                                 <th>Editar</th>
                                                 <th>Borrar</th>
@@ -228,13 +230,21 @@
                                                 $nombre = $res -> nombre;
                                                 $descripcion = $res -> descripcion;
                                                 $precio = $res -> precio;
+                                                $imagen = $res -> nombre_imagen;
+                                                $nombre_doc = $res -> nombre_archivo;
                                                 $estado = $res -> estado;
+
+                                                $path = base_url("index.php/File/getdocument/$imagen");
 
                                                 echo "
                                                 <tr>
                                                   <td>$nombre</td>
                                                   <td>$descripcion</td>
-                                                  <td>$precio</td>";
+                                                  <td>$precio</td>
+                                                  <td align='center'><img src='$path' onmouseover='this.width=300;this.height=300;' onmouseout='this.width=100;this.height=80;' width='100' height='80' alt='fotoproducto'></td>
+                                                  <td><a href='https://www.rehabilitacionneurologicaintegral.com.mx/FilesN/$nombre_doc'>$nombre_doc</a></td>";
+
+                                                  
 
                                                   if ($estado == 1) {
                                                     echo "<td><span class='label label-success'>Activo</span></td>";

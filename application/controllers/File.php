@@ -9,7 +9,7 @@ class File extends MY_Controller {
         
         $filename = $file_path;
         $file_system_path = "C:".DIRECTORY_SEPARATOR."xampp".DIRECTORY_SEPARATOR."htdocs".DIRECTORY_SEPARATOR."DIEZKA".DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.$filename;
-        //$file_system_path = "/home".DIRECTORY_SEPARATOR."ozul6s4w8s9l".DIRECTORY_SEPARATOR."public_html".DIRECTORY_SEPARATOR."Admin".DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.$filename;
+        //$file_system_path = "/home".DIRECTORY_SEPARATOR."ez8la22yqbqh".DIRECTORY_SEPARATOR."public_html".DIRECTORY_SEPARATOR."ImagesN".DIRECTORY_SEPARATOR.$filename;
         $file_content = read_file($file_system_path);
         
         if($file_content === FALSE){

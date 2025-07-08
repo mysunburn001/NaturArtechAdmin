@@ -327,6 +327,8 @@ function VerificaContenidoProducto(){
 
 function GuardaProductoS(){
 
+    var NombreProducto = $("#NombreProducto").val();
+
     // Validar extensión del archivo
     var ArchivoInput = $("#CapturaArchivo")[0];
     var ImagenInput = $("#CapturaImagen")[0];
