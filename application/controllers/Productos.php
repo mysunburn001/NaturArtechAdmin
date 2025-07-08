@@ -76,7 +76,7 @@ class Productos extends MY_Controller {
 
         $this->load->library('upload');
     
-        $Nombre_File = 'Ficha_Tecnica_de' . '_' . $NombreProducto;
+        $Nombre_File = 'Ficha_Tecnica_de' . '_' . $NombreProducto. '_' . $ClaveProducto;
         
         if ($_FILES["CapturaArchivo"]["type"] == "application/pdf") {
             
@@ -92,7 +92,7 @@ class Productos extends MY_Controller {
 
         }
 
-        $Nombre_File_Ext = $Nombre_File.'_'.$ClaveProducto.$Extension;
+        $Nombre_File_Ext = $Nombre_File.$Extension;
         
         $config['file_name'] = $Nombre_File;
         $config['upload_path'] = '/home/ez8la22yqbqh/public_html/FilesN/';
