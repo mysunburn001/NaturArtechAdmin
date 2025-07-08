@@ -242,7 +242,7 @@
                                                   <td>$descripcion</td>
                                                   <td>$precio</td>
                                                   <td align='center'><img src='$path' onmouseover='this.width=300;this.height=300;' onmouseout='this.width=100;this.height=80;' width='100' height='80' alt='fotoproducto'></td>
-                                                  <td><a href='https://www.rehabilitacionneurologicaintegral.com.mx/FilesN/$nombre_doc'>$nombre_doc</a></td>";
+                                                  <td><a href='https://www.rehabilitacionneurologicaintegral.com.mx/FilesN/$nombre_doc' target='_blank'>$nombre_doc</a></td>";
 
                                                   
 
