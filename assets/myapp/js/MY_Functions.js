@@ -310,10 +310,10 @@ function VerificaContenidoProducto(){
     var DescripcionProducto = $("#DescripcionProducto").val();
     var PrecioProducto = $("#PrecioProducto").val();
     var CategoriaProducto = $("#CategoriaProducto").val();
-    var Archivo = $("#Archivo").val();
+    var CapturaArchivo = $("#CapturaArchivo").val();
     var CapturaImagen = $("#CapturaImagen").val();
 
-    if(NombreProducto!="" && DescripcionProducto!="" && PrecioProducto!="" && CategoriaProducto!="" && Archivo!="" && CapturaImagen!=""){
+    if(NombreProducto!="" && DescripcionProducto!="" && PrecioProducto!="" && CategoriaProducto!="" && CapturaArchivo!="" && CapturaImagen!=""){
 
        GuardaProductoS(); 
 
@@ -327,26 +327,57 @@ function VerificaContenidoProducto(){
 
 function GuardaProductoS(){
 
-    var Formulario = document.getElementById('Archivo');
-    var Filecontent = Formulario.files[0];
-    var Form = $('form')[0]; // You need to use standard javascript object here
-    var FormData = new FormData(Form);
-    FormData.append('file',Filecontent);
+    // Validar extensión del archivo
+    var ArchivoInput = $("#CapturaArchivo")[0];
+    var ImagenInput = $("#CapturaImagen")[0];
 
-    var extensiones = ".pdf,.doc,.docx";
-    var extension = archivo.substring(archivo.lastIndexOf('.') + 1).toLowerCase();
-    var extensionValida = extensiones.indexOf(extension);
+    var archivo = ArchivoInput.files[0];
+    var nombreArchivo = archivo.name;
+    var extArchivo = nombreArchivo.substring(nombreArchivo.lastIndexOf('.') + 1).toLowerCase();
+    var extensionesValidasArchivo = ['pdf', 'doc', 'docx'];
+    if (!extensionesValidasArchivo.includes(extArchivo)) {
+        var ResArchivo = true;
+    }else{
+        var ResArchivo = false;
+    }
 
-    if(extensionValida < 0) {
+    // Validar extensión de la imagen
+    var imagen = ImagenInput.files[0];
+    var nombreImagen = imagen.name;
+    var extImagen = nombreImagen.substring(nombreImagen.lastIndexOf('.') + 1).toLowerCase();
+    if (extImagen !== "jpg" && extImagen !== "jpeg") {
+        var ResImagen = true;
+    }else{
+        var ResImagen = false;
+    }
         
-        swal("Error", "El archivo seleccionado no es valido por favor seleccione un archivo con extension PDF, DOC o DOCX.", "error");
+    if(ResArchivo == true  || ResImagen == true) {
+
+        if(ResArchivo==true && ResImagen == true){
+
+            swal("Error", "Los archivos seleccionados no contienen un formato valido por favor seleccione archivos con extension PDF, DOC, DOCX o JPG.", "error");
+
+        }else if(ResArchivo == true ){
+
+            swal("Error", "El archivo seleccionado no contiene un formato valido por favor seleccione un archivo con extension PDF, DOC o DOCX.", "error");
+
+        }else{
+
+            swal("Error", "La imagen seleccionada no contienen un formato valido por favor seleccione una imagen con extension JPG.", "error");
+        }
+        
 
     }else{
+
+        var form = document.getElementById('formProducto');
+        var formData = new FormData(form);
         
         $.ajax({
             url:myBase_url+"index.php/Productos/GuardaProductoC",
             type:"POST",
-            data:FormData/*{NombreProducto:NombreProducto,DescripcionProducto:DescripcionProducto,PrecioProducto:PrecioProducto,CategoriaProducto:CategoriaProducto}*/,
+            data:formData/*{NombreProducto:NombreProducto,DescripcionProducto:DescripcionProducto,PrecioProducto:PrecioProducto,CategoriaProducto:CategoriaProducto}*/,
+            processData: false,  // Muy importante para FormData
+            contentType: false,  // Muy importante para FormData
             async:true,
             timeout: 15000,
             success:function(datos){

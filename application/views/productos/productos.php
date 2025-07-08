@@ -41,6 +41,24 @@
 
         });
 
+        function EncodeBase64() {
+          const preview = document.querySelector('#ImagenProducto');
+          const file = document.getElementById('CapturaImagen').files[0];
+          const reader = new FileReader();
+
+          reader.addEventListener("load", () => {
+            // convert image file to base64 string
+            preview.src = reader.result;
+            var base64 = reader.result;
+            $("#ImagenProducto").show();
+          }, false);
+
+          if (file) {
+            reader.readAsDataURL(file);
+          }
+        }
+
+
     </script>
 
     <body class="fixed-left">
@@ -91,7 +109,7 @@
 
                                             <!-- form beggins -->
 
-                                            <form role="form" enctype="multipart/form-data">
+                                            <form role="form" enctype="multipart/form-data" id="formProducto">
 
                                               <div class="form-group">
                                                   <label for="NombreProducto">Nombre</label>
@@ -149,13 +167,13 @@
                                               </div>
 
                                               <div class="form-group">
-                                                <label for="Archivo">Archivo</label>
-                                                <input type="file" class="filestyle form-control" data-size="sm" accept=".pdf,.doc,.docx" id="Archivo">
+                                                <label for="CapturaArchivo">Archivo</label>
+                                                <input type="file" class="filestyle form-control" data-size="sm" accept=".pdf,.doc,.docx" name="CapturaArchivo" id="CapturaArchivo">
                                               </div>  
 
                                               <div class="form-group">
                                                   <label for="CapturaImagen">Imagen</label>
-                                                  <input type="file" class="filestyle form-control" data-size="sm" accept=".jpg" id="CapturaImagen" onchange="EncodeBase64();">
+                                                  <input type="file" class="filestyle form-control" data-size="sm" accept=".jpg" name="CapturaImagen" id="CapturaImagen" onchange="EncodeBase64();">
                                               </div> 
 
                                               <img src="" height="250" width="250" id="ImagenProducto">

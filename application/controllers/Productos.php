@@ -59,14 +59,8 @@ class Productos extends MY_Controller {
 
     public function GuardaProductoC(){
 
-        /*$NombreProducto = $this->input->post("NombreProducto");
-        $DescripcionProducto = $this->input->post("DescripcionProducto");
-        $ClaveProducto = uniqid();
-        $PrecioProducto = $this->input->post("PrecioProducto");
-        $CategoriaProducto = $this->input->post("CategoriaProducto");
-        date_default_timezone_set('America/Mexico_City');
-        $FechaHoraActual = date('Y-m-d H:i:s');
-        $Usuario = $this->session->userdata('user');*/
+        //print_r($_POST);
+        //print_r($_FILES);
 
         $NombreProducto = $_POST["NombreProducto"];
         $DescripcionProducto = $_POST["DescripcionProducto"];
@@ -76,18 +70,19 @@ class Productos extends MY_Controller {
         date_default_timezone_set('America/Mexico_City');
         $FechaHoraActual = date('Y-m-d H:i:s');
         $Usuario = $this->session->userdata('user');
-        $Archivo = $_POST["Archivo"];
         $Extension;
         $Nombre_File;
         $Nombre_File_Ext;
+
+        $this->load->library('upload');
     
         $Nombre_File = 'Ficha_Tecnica_de' . '_' . $NombreProducto;
         
-        if ($_FILES["file"]["type"] == "application/pdf") {
+        if ($_FILES["CapturaArchivo"]["type"] == "application/pdf") {
             
             $Extension = ".pdf";
         
-        }elseif ($_FILES["file"]["type"] == "application/msword") {
+        }elseif ($_FILES["CapturaArchivo"]["type"] == "application/msword") {
             
             $Extension = ".doc";
 
@@ -97,10 +92,8 @@ class Productos extends MY_Controller {
 
         }
 
-        $Nombre_File_Ext = $Nombre_File.$Extension;
-
-        $this->load->library('upload');
-
+        $Nombre_File_Ext = $Nombre_File.'_'.$ClaveProducto.$Extension;
+        
         $config['file_name'] = $Nombre_File;
         $config['upload_path'] = '/home/ez8la22yqbqh/public_html/FilesN/';
         $config['allowed_types'] = 'pdf|docx|doc';
@@ -111,15 +104,34 @@ class Productos extends MY_Controller {
         $this->upload->initialize($config);
 
         //Upload file
-        if( ! $this->upload->do_upload("file")){
+        if( ! $this->upload->do_upload("CapturaArchivo")){
 
             //echo the errors
             echo $this->upload->display_errors();
         }
 
         //If the upload success
-        $file_name = $this->upload->file_name;
+        //$file_name = $this->upload->file_name;
         //echo $file_name;
+
+        $Nombre_Imagen = 'Imagen' . '_' . $NombreProducto . '_' . $ClaveProducto;
+        $Nombre_Imagen_Ext = $Nombre_Imagen. '.jpg';
+        
+        $configImagen['file_name'] = $Nombre_Imagen;
+        $configImagen['upload_path'] = '/home/ez8la22yqbqh/public_html/ImagesN/';
+        $configImagen['allowed_types'] = 'jpg|jpeg';
+        $configImagen['max_size'] = 1024 * 8;
+        //$config['encrypt_name'] = TRUE;
+        $configImagen['overwrite'] = TRUE; 
+
+        $this->upload->initialize($configImagen);
+
+        //Upload file
+        if( ! $this->upload->do_upload("CapturaImagen")){
+
+            //echo the errors
+            echo $this->upload->display_errors();
+        }
     
         $DatosProducto = array(
             'nombre' => $NombreProducto, 
@@ -128,13 +140,13 @@ class Productos extends MY_Controller {
             'precio' => $PrecioProducto, 
             'categoria' => $CategoriaProducto, 
             'nombre_archivo' => $Nombre_File_Ext, 
+            'nombre_imagen' => $Nombre_Imagen_Ext, 
             'fecha_registro' => $FechaHoraActual, 
             'usuario_registro' => $Usuario, 
             'estado' => '1'
         );
 
         $this->Query_Model->InsertaProducto($DatosProducto);
-        
 
    }
 
